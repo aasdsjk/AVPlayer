@@ -33,6 +33,7 @@ class ViewController: UIViewController {
     var timer : Timer!
     var alphaTimer : Timer!
     
+//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,7 @@ class ViewController: UIViewController {
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
     }
+    //自定义播放界面
     fileprivate func createTopViewAndBottomView()  {
         self.view.backgroundColor = UIColor.black
         topView = UIView.init()
@@ -117,7 +119,7 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(swipe)
         //        alphaTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(alphaChange), userInfo: nil, repeats: <#T##Bool#>)
     }
-    
+    //创建player
     fileprivate func createPlayer() {
         playerItem = AVPlayerItem.init(url: NSURL.init(string: "http://krtv.qiniudn.com/150522nextapp") as! URL)
         playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: .new, context: nil)
@@ -131,7 +133,7 @@ class ViewController: UIViewController {
         addTimer()
         
     }
-    
+    //添加约束
     func contentMasnory()  {
         topView.snp.makeConstraints { (make) in
             make.left.equalTo(0)
@@ -198,7 +200,7 @@ class ViewController: UIViewController {
             make.top.equalTo(10)
         }
     }
-    
+    //开始播放和暂停播放
     func startAndParuse(sender:UIButton)  {
         if sender.isSelected {
             player.play()
@@ -211,6 +213,7 @@ class ViewController: UIViewController {
         }
         
     }
+    //下一曲，这里应该重新创建  AVPlayerItem
     func nextVideo()  {
         //        player = nil
         player.pause()
@@ -293,7 +296,7 @@ class ViewController: UIViewController {
             
         }
     }
-    
+    // 观察者模式 进行进度条的改变
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "loadedTimeRanges" {
             //            let timeinterval = self.availableDuration()//缓冲速度
@@ -314,6 +317,7 @@ class ViewController: UIViewController {
         return result
         
     }
+    //计算时间的方法
     func timerProgress()  {
         if playerItem.duration.timescale != 0 {
             progressSlider.maximumValue = 1.0
